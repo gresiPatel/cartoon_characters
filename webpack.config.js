@@ -6,17 +6,15 @@ const {presets, plugins} = require(`${appDirectory}/babel.config.js`);
 const compileNodeModules = [
   // Add every react-native package that needs compiling
   // 'react-native-gesture-handler',
-  '@react-navigation/native',
-  '@react-navigation/native-stack',
+  '@react-navigation',
 ].map(moduleName => path.resolve(appDirectory, `node_modules/${moduleName}`));
 const babelLoaderConfiguration = {
-  test: /\\\\.ts$|tsx?$/,
+  test: /\.(tsx|jsx|ts|js)?$/,
   // Add every directory that needs to be compiled by Babel during the build.
   include: [
     path.resolve(__dirname, 'index.js'), // Entry to your application
     path.resolve(__dirname, 'src/index.tsx'), // Change this to your main App file
     path.resolve(__dirname, 'src'),
-    path.resolve(__dirname, 'component'),
     ...compileNodeModules,
   ],
   use: {
@@ -46,6 +44,11 @@ const imageLoaderConfiguration = {
   },
 };
 
+const imageLoaderConfiguration1 = {
+  test: /\.(ico|gif|jpe?g|png)$/,
+  type: 'asset',
+};
+
 module.exports = {
   entry: {
     app: path.join(__dirname, 'index.js'),
@@ -65,6 +68,7 @@ module.exports = {
     rules: [
       babelLoaderConfiguration,
       imageLoaderConfiguration,
+      imageLoaderConfiguration1,
       svgLoaderConfiguration,
     ],
   },

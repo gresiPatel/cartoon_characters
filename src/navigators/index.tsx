@@ -1,23 +1,36 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
+//imported all screen's components which are placed in screens folder
+import * as Screens from '../screens';
 
-const Stack = createNativeStackNavigator();
+//defined main navigator's type to check route name and it's params
+export type RootStackParamList = {
+  Splash: undefined; //doesn't have params
+  Characters: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const routes: Array<React.ComponentProps<typeof Stack.Screen>> = [
+  {
+    name: 'Splash',
+    component: Screens.Splash,
+  },
+  {
+    name: 'Characters',
+    component: Screens.Characters,
+  },
+];
 
 function StackNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {routes.map(routeConfig => (
+          <Stack.Screen key={routeConfig.name} {...routeConfig} />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );
