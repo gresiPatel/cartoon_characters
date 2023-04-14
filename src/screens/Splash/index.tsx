@@ -13,7 +13,7 @@ export const Splash = ({
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate('Characters');
-    }, 3000);
+    }, 1500);
   }, []);
   {
   }

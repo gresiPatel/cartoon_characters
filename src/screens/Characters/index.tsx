@@ -1,52 +1,58 @@
-import React, {useEffect} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {FlatList, Platform} from 'react-native';
 
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {useAxios} from '../../hooks';
+import {CharacterType, apiResponseType} from '../../types';
+
+import {CharacterCard} from './characterCard';
 import {styles} from './style';
 
-const DATA: object[] = [
-  {
-    id: 1,
-    name: 'Rick Sanchez',
-    status: 'Alive',
-    species: 'Human',
-    type: '',
-    gender: 'Male',
-  },
-];
-
-interface Character {
-  id: number;
-  name: string;
-  status: string;
-  species: string;
-  type: string;
-  gender: string;
-}
-
-type ListItem = {
-  item: object;
-  index: number;
-};
-
-const Item = () => (
-  <View>
-    <Text>{}</Text>
-  </View>
-);
-
 export const Characters = ({navigation}: NativeStackScreenProps<{}>) => {
-  useEffect(() => {}, []);
+  const characterList = useRef<CharacterType[]>([]);
+
+  const [pageURL, setPageURL] = useState<string | null>(`/character`);
+
+  const {apiResponse, loading, apiError, callNextPage} = useAxios(
+    pageURL as string,
+  );
+
+  useEffect(() => {
+    characterList.current = [];
+  }, []);
+
+  useEffect(() => {
+    //manage characters which are came from api response
+    handleApiResponse();
+  }, [apiResponse]);
+
+  //to handle characters, concat new character array with previous and update next page URL
+  const handleApiResponse = () => {
+    const response: apiResponseType = apiResponse?.data;
+    if (response?.results) {
+      characterList.current = [...characterList.current, ...response.results];
+      setPageURL(response.info.next);
+    }
+  };
+
+  const getMoreCharacters = () => {
+    if (pageURL != null) {
+      callNextPage(pageURL as string);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>this is Characters screen</Text>
-      <FlatList
-        data={DATA}
-        renderItem={({item}: ListItem) => <Item />}
-        keyExtractor={(item, index) => `char_${index}`}
-      />
-    </View>
+    <FlatList
+      style={{flex: 1}}
+      contentContainerStyle={styles.listContentStyle}
+      columnWrapperStyle={{justifyContent: 'flex-start'}}
+      data={characterList.current}
+      renderItem={({item}) => <CharacterCard {...item} />}
+      keyExtractor={(item: CharacterType) => `${item.id}`}
+      numColumns={Platform.OS === 'web' ? 6 : 2}
+      onEndReached={() => getMoreCharacters()}
+      onEndReachedThreshold={0.05}
+    />
   );
 };

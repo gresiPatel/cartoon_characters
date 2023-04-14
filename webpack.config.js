@@ -7,6 +7,7 @@ const compileNodeModules = [
   // Add every react-native package that needs compiling
   // 'react-native-gesture-handler',
   '@react-navigation',
+  'axios',
 ].map(moduleName => path.resolve(appDirectory, `node_modules/${moduleName}`));
 const babelLoaderConfiguration = {
   test: /\.(tsx|jsx|ts|js)?$/,
