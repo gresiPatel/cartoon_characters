@@ -5,21 +5,28 @@ interface pageInfoType {
   prev: string | null;
 }
 
+type Location = {
+  name: string;
+  url: string;
+};
+
 export interface CharacterType {
   id: number;
   name: string;
-  status: string;
+  status: 'Dead' | 'Alive' | 'Unknown';
   species: string;
   type: string;
   gender: string;
   image: string;
-  location: {
-    name: string;
-    url: string;
-  };
+  location: Location;
+  origin: Location;
 }
 
 export interface apiResponseType {
   info: pageInfoType;
   results: CharacterType[];
+}
+
+export interface CharacterCardProps extends CharacterType {
+  onPressCard(): void;
 }

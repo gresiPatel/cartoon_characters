@@ -13,6 +13,7 @@ export const useAxios = (axiosUrl: string) => {
 
   const fetchData = async (url: string) => {
     try {
+      setLoading(true);
       const result = await axios.request({url: url});
       setResponse(result);
     } catch (err: AxiosError | any) {

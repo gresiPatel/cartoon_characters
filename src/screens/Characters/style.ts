@@ -1,7 +1,6 @@
 import {StyleSheet, Platform} from 'react-native';
 
 import {responsiveWidth, responsiveHeight, colors} from '../../resources';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export const styles = StyleSheet.create({
   cardView: {
@@ -16,7 +15,7 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: responsiveWidth(3),
     paddingVertical: responsiveHeight(1),
-    backgroundColor: 'black',
+    backgroundColor: colors.background,
   },
   avtarStyle: {
     height: responsiveHeight(18),
