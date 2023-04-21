@@ -26,7 +26,3 @@ export interface apiResponseType {
   info: pageInfoType;
   results: CharacterType[];
 }
-
-export interface CharacterCardProps extends CharacterType {
-  onPressCard(): void;
-}

@@ -1,25 +1,37 @@
-import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, Image, Animated, Easing} from 'react-native';
 
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-
-import {RootStackParamList} from '../../navigators';
+import {ScreenProps} from '../../types';
+import {responsiveHeight} from '../../resources';
 
 import {styles} from './style';
 
-export const Splash = ({
-  navigation,
-}: NativeStackScreenProps<RootStackParamList>) => {
+export const Splash = ({navigation}: ScreenProps) => {
+  const topAnimation = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('Characters');
-    }, 1500);
+    animateIcon();
   }, []);
-  {
+
+  function animateIcon() {
+    Animated.timing(topAnimation, {
+      toValue: responsiveHeight(35),
+      duration: 2000,
+      useNativeDriver: false,
+      easing: Easing.in(Easing.bounce),
+    }).start(() => {
+      navigation.navigate('Characters');
+    });
   }
+
   return (
     <View style={styles.container}>
-      <Text>this is splash screen</Text>
+      <Animated.View style={{top: topAnimation}}>
+        <Image
+          source={require('../../../asset/app_icon.jpeg')}
+          style={styles.appIconStyle}
+        />
+      </Animated.View>
     </View>
   );
 };

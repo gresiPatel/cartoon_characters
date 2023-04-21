@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground} from 'react-native';
 
 import RNContentLoader, {Rect} from 'react-content-loader/native';
 
-import {CharacterCardProps} from '../../types';
+import {CharacterType} from '../../types';
 import {styles} from './style';
 import {colors, responsiveHeight} from '../../resources';
 
@@ -15,9 +15,8 @@ export const CharacterCard = ({
   status,
   location,
   origin,
-  onPressCard,
-}: CharacterCardProps) => (
-  <TouchableOpacity style={styles.cardView} onPress={onPressCard}>
+}: CharacterType) => (
+  <View style={styles.cardView}>
     {/* character's picture with name */}
     <ImageBackground source={{uri: image}} style={styles.avtarStyle}>
       <Text style={styles.nameText}>{name}</Text>
@@ -49,7 +48,7 @@ export const CharacterCard = ({
       <Text style={styles.titleStyle}>Origin : </Text>
       <Text style={styles.textStyle}>{origin.name}</Text>
     </View>
-  </TouchableOpacity>
+  </View>
 );
 
 //content loader which has same height-width as CharacterCard view

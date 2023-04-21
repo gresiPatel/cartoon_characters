@@ -4,12 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 //imported all screen's components which are placed in screens folder
 import * as Screens from '../screens';
-
-//defined main navigator's type to check route name and it's params
-export type RootStackParamList = {
-  Splash: undefined; //doesn't have params
-  Characters: undefined;
-};
+import {RootStackParamList} from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

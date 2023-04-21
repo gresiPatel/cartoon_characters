@@ -1,10 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, Platform} from 'react-native';
 
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {useAxios} from '../../hooks';
-import {CharacterType, apiResponseType} from '../../types';
+import {CharacterType, apiResponseType, ScreenProps} from '../../types';
 
 import {CharacterCard, ContentLoader} from './characterCard';
 import {styles} from './style';
@@ -13,7 +11,7 @@ import {responsiveHeight} from '../../resources';
 //dummy array to display content loading view
 const loadingArray: any[] = new Array(6).fill(null);
 
-export const Characters = ({navigation}: NativeStackScreenProps<{}>) => {
+export const Characters = ({navigation}: ScreenProps) => {
   const characterList = useRef<CharacterType[]>([]);
 
   const [pageURL, setPageURL] = useState<string | null>(`/character`);
@@ -82,6 +80,7 @@ export const Characters = ({navigation}: NativeStackScreenProps<{}>) => {
         offset: responsiveHeight(35) * index,
         index,
       })}
+      bounces={false}
       removeClippedSubviews={true} //to prevent blank space issue after the list on scroll end
       windowSize={characterList.current.length || 1} //to prevent blank view on scroll fast (when scroll to already loaded items)
     />
